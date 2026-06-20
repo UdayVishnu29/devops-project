@@ -20,7 +20,7 @@ const products = [
 app.get("/", (req, res) => {
   res.json({
     status: "running",
-    version: "1.0",
+    version: "2.0",
   });
 });
 
