@@ -1,0 +1,71 @@
+---
+- name: Configure Jenkins Server
+  hosts: jenkins
+  become: true
+
+  tasks:
+    - name: Update packages
+      yum:
+        name: "*"
+        state: latest
+
+    - name: Install Java 21
+      yum:
+        name: java-21-amazon-corretto
+        state: present
+
+    - name: Add Jenkins Repo
+      get_url:
+        url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+        dest: /etc/yum.repos.d/jenkins.repo
+
+    - name: Import Jenkins Key
+      rpm_key:
+        state: present
+        key: https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+
+    - name: Install Jenkins
+      yum:
+        name: jenkins
+        state: present
+
+    - name: Start Jenkins
+      service:
+        name: jenkins
+        state: started
+        enabled: yes
+
+    - name: Install Docker
+      yum:
+        name: docker
+        state: present
+
+    - name: Enable Docker
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add Jenkins User to Docker Group
+      user:
+        name: jenkins
+        groups: docker
+        append: yes
+
+    - name: Install AWS CLI
+      shell: |
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o awscliv2.zip
+        unzip -o awscliv2.zip
+        ./aws/install
+      args:
+        creates: /usr/local/bin/aws
+
+    - name: Install kubectl
+      shell: |
+        curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
+        chmod +x kubectl
+        mv kubectl /usr/local/bin/
+
+    - name: Install Helm
+      shell: |
+        curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash

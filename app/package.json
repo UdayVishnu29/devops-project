@@ -1,0 +1,12 @@
+{
+  "name": "fake-ecommerce-api",
+  "version": "1.0.0",
+  "description": "Fake Ecommerce API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

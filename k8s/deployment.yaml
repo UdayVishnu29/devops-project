@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: ecommerce-api
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: ecommerce-api
+
+  template:
+    metadata:
+      labels:
+        app: ecommerce-api
+
+    spec:
+      containers:
+        - name: ecommerce-api
+
+          image: ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/fake-ecommerce-api:latest
+
+          ports:
+            - containerPort: 3000
