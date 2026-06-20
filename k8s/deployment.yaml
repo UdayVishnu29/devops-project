@@ -20,7 +20,7 @@ spec:
       containers:
         - name: ecommerce-api
 
-          image: ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/fake-ecommerce-api:latest
+          image: 593793066128.dkr.ecr.us-east-1.amazonaws.com/fake-ecommerce-api:latest
 
           ports:
             - containerPort: 3000
